@@ -1,9 +1,25 @@
+        var limit = 3;
+        var current = 1;
 
         window.addEventListener('load', function(){
             var formEle = document.getElementById('form');
+            var pageBtn = document.getElementById('pagination');
             formEle.addEventListener('submit', addProduct);
+            pageBtn.addEventListener('click', pageControl);
             
         });
+
+        function pageControl(e){
+            e.preventDefault();
+            const prev = document.getElementById('prev');
+            const curr = document.getElementById('current');
+            const next = document.getElementById('next');
+            console.log(e.target);
+
+            if(curr.value == 1){
+                prev.disabled = true;
+            }
+        }
 
         async function addProduct(){
             try{
@@ -42,7 +58,7 @@
             })
         }
         function getProducts(){
-            return fetch("http://localhost:3001/products").then(function(response){
+            return fetch(`http://localhost:3001/products?_page=${current}?limit=${limit}`).then(function(response){
                 return response.json();
             })
         }
@@ -69,6 +85,13 @@
 
                 div.append(h3, h4, p, p1);
                 display.append(div);
+
+                // var prev = document.getElementById('prev');
+                // var next = document.getElementById('next');
+                // if(next.textContent == 1){
+                //     prev.disabled = true;
+                // }
+               
             }
 
         }
